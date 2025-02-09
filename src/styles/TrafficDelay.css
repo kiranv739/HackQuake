@@ -1,0 +1,35 @@
+.container {
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+.input-form {
+    margin-bottom: 20px;
+}
+
+.input-form input {
+    width: 200px;
+    padding: 8px;
+    margin-right: 10px;
+}
+
+.input-form button {
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.input-form button:hover {
+    background-color: #0056b3;
+}
+
+#map {
+    height: 400px;
+    width: 100%;
+}
+
+.result {
+    margin-top: 20px;
+}
