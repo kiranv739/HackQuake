@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BMTC Bus Delay Tracker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    #input-form {
+      margin-bottom: 20px;
+    }
+    #input-form input {
+      width: 200px;
+      padding: 8px;
+      margin-right: 10px;
+    }
+    #input-form button {
+      padding: 8px 16px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    #input-form button:hover {
+      background-color: #0056b3;
+    }
+    #result {
+      margin-top: 20px;
+    }
+    #bus-list {
+      list-style-type: none;
+      padding: 0;
+    }
+    #bus-list li {
+      background: #f4f4f4;
+      margin: 5px 0;
+      padding: 10px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>BMTC Bus Delay Tracker</h1>
+  <div id="input-form">
+    <input type="text" id="fromStation" placeholder="Enter From Station" required>
+    <input type="text" id="toStation" placeholder="Enter To Station" required>
+    <button onclick="fetchBusDelays()">Get Bus Delays</button>
+  </div>
+  <div id="result">
+    <h2>Next 3 Buses:</h2>
+    <ul id="bus-list">
+      <li>Enter from and to stations to see bus delays.</li>
+    </ul>
+  </div>
+
+  <script>
+    // Hypothetical API endpoint for fetching bus delays by stations
+    const bmtcApiUrl = "https://bmtc.com/api/GetBusDelaysByStations_v3";
+
+    // Fetch bus delays based on from and to stations
+    function fetchBusDelays() {
+      const fromStation = document.getElementById("fromStation").value;
+      const toStation = document.getElementById("toStation").value;
+
+      if (!fromStation || !toStation) {
+        alert("Please enter both from and to stations.");
+        return;
+      }
+
+      // Simulate API call with mock data
+      const mockData = {
+        buses: [
+          { busId: "Bus 1", route: "Route 123", from: "MG Road", to: "Whitefield", scheduledTime: "10:00", actualTime: "10:05" },
+          { busId: "Bus 2", route: "Route 456", from: "MG Road", to: "Whitefield", scheduledTime: "10:15", actualTime: "10:20" },
+          { busId: "Bus 3", route: "Route 789", from: "MG Road", to: "Whitefield", scheduledTime: "10:30", actualTime: "10:40" },
+          { busId: "Bus 4", route: "Route 101", from: "MG Road", to: "Whitefield", scheduledTime: "10:45", actualTime: "10:50" },
+        ],
+      };
+
+      // Simulate API delay
+      setTimeout(() => {
+        displayBusDelays(mockData.buses);
+      }, 1000); // Simulate 1-second API delay
+    }
+
+    // Display bus delays
+    function displayBusDelays(buses) {
+      const busList = document.getElementById("bus-list");
+      busList.innerHTML = ""; // Clear previous results
+
+      if (!buses || buses.length === 0) {
+        busList.innerHTML = "<li>No buses available.</li>";
+        return;
+      }
+
+      // Display the next 3 buses with delays
+      buses.slice(0, 3).forEach((bus) => {
+        const scheduledTime = new Date(`2023-10-01T${bus.scheduledTime}:00`);
+        const actualTime = new Date(`2023-10-01T${bus.actualTime}:00`);
+        const delayMinutes = Math.round((actualTime - scheduledTime) / (1000 * 60));
+
+        const listItem = document.createElement("li");
+        listItem.textContent = `Bus ${bus.busId} (${bus.route}) from ${bus.from} to ${bus.to} is ${delayMinutes} minutes late (Scheduled: ${bus.scheduledTime}, Actual: ${bus.actualTime})`;
+        busList.appendChild(listItem);
+      });
+    }
+  </script>
+</body>
+</html>
